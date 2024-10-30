@@ -1,4 +1,3 @@
-// ServersList.test.tsx
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { ServersList } from "../ServerListView";
 import { useAuth } from "../../../hooks/useAuth";
@@ -7,10 +6,6 @@ import { TServer } from "../../../types/types";
 import { vi, Mock } from "vitest";
 import { AuthProvider } from "../../../contexts/AuthContext";
 import { BrowserRouter } from "react-router-dom";
-
-// Mock the dependencies
-vi.mock("../../hooks/useAuth");
-vi.mock("react-query");
 
 const mockLogout = vi.fn();
 const mockServers: TServer[] = [
