@@ -1,7 +1,14 @@
-import { createContext, useState, ReactNode } from "react";
+import {
+  createContext,
+  useState,
+  ReactNode,
+  useCallback,
+  useMemo,
+} from "react";
 
 export interface AuthContextType {
   token: string | null;
+  isAuthenticated: boolean;
   login: (token: string) => void;
   logout: () => void;
 }
@@ -11,23 +18,29 @@ export const AuthContext = createContext<AuthContextType | undefined>(
 );
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [token, setToken] = useState<string | null>(
+  const [token, setToken] = useState<string | null>(() =>
     localStorage.getItem("token")
   );
 
-  const login = (token: string) => {
-    setToken(token);
-    localStorage.setItem("token", token);
-  };
+  const login = useCallback((newToken: string) => {
+    setToken(newToken);
+    localStorage.setItem("token", newToken);
+  }, []);
 
-  const logout = () => {
+  const logout = useCallback(() => {
     setToken(null);
     localStorage.removeItem("token");
-  };
+  }, []);
 
-  return (
-    <AuthContext.Provider value={{ token, login, logout }}>
-      {children}
-    </AuthContext.Provider>
+  const value = useMemo(
+    () => ({
+      token,
+      isAuthenticated: !!token,
+      login,
+      logout,
+    }),
+    [token, login, logout]
   );
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

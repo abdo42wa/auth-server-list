@@ -1,7 +1,6 @@
-import { defineConfig } from "vite";
+import { coverageConfigDefaults, defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
   test: {
@@ -9,5 +8,13 @@ export default defineConfig({
     environment: "jsdom",
     setupFiles: "./src/test/setup.ts",
     css: true,
+    coverage: {
+      exclude: [
+        "postcss.config.js",
+        "tailwind.config.js",
+        "./src/main.tsx",
+        ...coverageConfigDefaults.exclude,
+      ],
+    },
   },
 });
