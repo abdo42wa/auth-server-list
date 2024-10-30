@@ -12,7 +12,6 @@ import { ServersList } from "./views/ServerListView/ServerListView";
 
 function ProtectedRoute({ children }: { children: JSX.Element }) {
   const { token } = useAuth();
-  console.log(token);
   return token ? children : <Navigate to="/login" />;
 }
 

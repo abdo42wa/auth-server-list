@@ -9,3 +9,8 @@ export type TAuthContextType = {
   login: (token: string) => void;
   logout: () => void;
 };
+
+export type TLoginValues = {
+  username: string;
+  password: string;
+};

@@ -1,30 +1,23 @@
 import { Field, Form, Formik } from "formik";
 import { loginValidationSchema } from "../../utils/loginValidationSchema";
 import { ErrorMessage } from "../../components/ErrorMessage";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import { getAuthToken } from "../../utils/getAuthToken";
+import { type TLoginValues } from "../../types/types";
 
 export const LoginView = () => {
   const { login, token } = useAuth();
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
-
-  const handleLogin = async (values: {
-    username: string;
-    password: string;
-  }) => {
+  const handleLogin = async (values: TLoginValues) => {
     try {
       setError(null);
-      const response = await axios.post(
-        "https://playground.tesonet.lt/v1/tokens",
-        values,
-        {
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-      login(response.data.token);
+
+      const token = await getAuthToken(values);
+
+      login(token);
       navigate("/");
     } catch (err) {
       setError("Wrong email and password combination!");
@@ -43,8 +36,8 @@ export const LoginView = () => {
         <Formik
           initialValues={{ username: "", password: "" }}
           validationSchema={loginValidationSchema}
-          onSubmit={() => {
-            console.log("submit");
+          onSubmit={(values) => {
+            handleLogin(values);
           }}
         >
           {({ errors, touched, values }) => (
