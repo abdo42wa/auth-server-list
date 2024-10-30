@@ -1,10 +1,18 @@
-import { Login } from "../LoginView";
+import { LoginView } from "../LoginView";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { BrowserRouter } from "react-router-dom";
+import { AuthProvider } from "../../../contexts/AuthContext";
 
 describe("Login Component", () => {
   const setup = () => {
-    render(<Login />);
+    render(
+      <BrowserRouter>
+        <AuthProvider>
+          <LoginView />
+        </AuthProvider>
+      </BrowserRouter>
+    );
 
     const usernameInput = screen.getByLabelText("usernameField");
     const passwordInput = screen.getByLabelText("passwordField");

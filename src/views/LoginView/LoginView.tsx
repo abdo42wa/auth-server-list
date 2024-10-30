@@ -1,25 +1,53 @@
 import { Field, Form, Formik } from "formik";
-import { object, string } from "yup";
+import { loginValidationSchema } from "../../utils/loginValidationSchema";
+import { ErrorMessage } from "../../components/ErrorMessage";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useAuth } from "../../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
-export const Login = () => {
-  const validationSchema = object({
-    username: string().required("username is required").min(4),
-    password: string()
-      .min(6, "Password must be at least 6 characters")
-      .required("Password is required"),
-  });
+export const LoginView = () => {
+  const { login, token } = useAuth();
+  const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
+
+  const handleLogin = async (values: {
+    username: string;
+    password: string;
+  }) => {
+    try {
+      setError(null);
+      const response = await axios.post(
+        "https://playground.tesonet.lt/v1/tokens",
+        values,
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      login(response.data.token);
+      navigate("/");
+    } catch (err) {
+      setError("Wrong email and password combination!");
+    }
+  };
+
+  useEffect(() => {
+    if (token) {
+      navigate("/");
+    }
+  }, [token]);
 
   return (
     <div className="flex h-screen justify-center items-center">
       <div className="w-full max-w-md">
         <Formik
           initialValues={{ username: "", password: "" }}
-          validationSchema={validationSchema}
+          validationSchema={loginValidationSchema}
           onSubmit={() => {
             console.log("submit");
           }}
         >
-          {({ errors, touched }) => (
+          {({ errors, touched, values }) => (
             <Form>
               <label
                 aria-label="emailLabel"
@@ -33,12 +61,10 @@ export const Login = () => {
                 className="rounded-lg w-full py-4 px-3 text-black leading-tight focus:outline-none focus:shadow-outline bg-gray-200"
               />
               {errors.username && touched.username && (
-                <div
-                  aria-label="usernameErrorMessage"
-                  className="text-gray-700"
-                >
-                  {errors.username}
-                </div>
+                <ErrorMessage
+                  message={errors.username}
+                  ariaLabel="usernameErrorMessage"
+                />
               )}
 
               <label
@@ -54,18 +80,19 @@ export const Login = () => {
                 className="rounded-lg w-full py-4 px-3 text-black leading-tight focus:outline-none focus:shadow-outline bg-gray-200"
               />
               {errors.password && touched.password && (
-                <div
-                  aria-label="passwordErrorMessage"
-                  className="text-gray-700"
-                >
-                  {errors.password}
-                </div>
+                <ErrorMessage
+                  message={errors.password}
+                  ariaLabel="passwordErrorMessage"
+                />
               )}
-
+              {error && (
+                <ErrorMessage message={error} ariaLabel="formErrorMessage" />
+              )}
               <button
                 aria-label="submitButton"
                 className="bg-blue-600 hover:bg-blue-700 disable:bg-red-500 text-white font-bold py-3 rounded-2xl w-full mt-6"
                 type="submit"
+                onClick={() => handleLogin(values)}
               >
                 Submit
               </button>
