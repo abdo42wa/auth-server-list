@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { ServersList } from "../ServerListView";
+import { ServerListView } from "../ServerListView";
 import { useAuth } from "../../../hooks/useAuth";
 import { useQuery } from "react-query";
 import { TServer } from "../../../types/types";
@@ -8,51 +8,55 @@ import { AuthProvider } from "../../../contexts/AuthContext";
 import { BrowserRouter } from "react-router-dom";
 
 const mockLogout = vi.fn();
+
 const mockServers: TServer[] = [
   { name: "Server A ", distance: 300 },
   { name: "Server B ", distance: 100 },
   { name: "Server C ", distance: 200 },
 ];
 
-describe("ServersList", () => {
+describe("ServerListViewView", () => {
+  const setupTest = () => {
+    render(
+      <BrowserRouter>
+        <AuthProvider>
+          <ServerListView />
+        </AuthProvider>
+      </BrowserRouter>
+    );
+  };
+
   beforeEach(() => {
     (useAuth as Mock).mockReturnValue({
       token: "test-token",
       logout: mockLogout,
     });
   });
+
   vi.mock("react-query", () => ({
     useQuery: vi.fn(),
   }));
+
   vi.mock("../../../hooks/useAuth", () => ({
     useAuth: vi.fn(),
   }));
+
   it("renders loading state", () => {
     (useQuery as Mock).mockReturnValue({ isLoading: true });
 
-    render(
-      <BrowserRouter>
-        <AuthProvider>
-          <ServersList />
-        </AuthProvider>
-      </BrowserRouter>
-    );
-
-    expect(screen.getByText(/loading.../i)).toBeInTheDocument();
+    setupTest();
+    const serversLoader = screen.getByLabelText("serversLoader");
+    expect(serversLoader).toBeInTheDocument();
   });
 
   it("renders error state", () => {
     (useQuery as Mock).mockReturnValue({ isLoading: false, error: true });
 
-    render(
-      <BrowserRouter>
-        <AuthProvider>
-          <ServersList />
-        </AuthProvider>
-      </BrowserRouter>
-    );
+    setupTest();
 
-    expect(screen.getByText(/error loading servers/i)).toBeInTheDocument();
+    const serversError = screen.getByLabelText("serversError");
+
+    expect(serversError).toBeInTheDocument();
   });
 
   it("renders server list sorted by distance by default", () => {
@@ -61,15 +65,10 @@ describe("ServersList", () => {
       data: mockServers,
     });
 
-    render(
-      <BrowserRouter>
-        <AuthProvider>
-          <ServersList />
-        </AuthProvider>
-      </BrowserRouter>
-    );
+    setupTest();
 
     const serverItems = screen.getAllByLabelText("server");
+
     expect(serverItems[0]).toHaveTextContent("Server B");
     expect(serverItems[1]).toHaveTextContent("Server C");
     expect(serverItems[2]).toHaveTextContent("Server A");
@@ -81,19 +80,15 @@ describe("ServersList", () => {
       data: mockServers,
     });
 
-    render(
-      <BrowserRouter>
-        <AuthProvider>
-          <ServersList />
-        </AuthProvider>
-      </BrowserRouter>
-    );
+    setupTest();
 
     const sortSelect = screen.getByLabelText("sortByList");
+
     fireEvent.change(sortSelect, { target: { value: "name" } });
 
     await waitFor(() => {
       const serverItems = screen.getAllByLabelText("server");
+
       expect(serverItems[0]).toHaveTextContent("Server A");
       expect(serverItems[1]).toHaveTextContent("Server B");
       expect(serverItems[2]).toHaveTextContent("Server C");
@@ -106,15 +101,10 @@ describe("ServersList", () => {
       data: mockServers,
     });
 
-    render(
-      <BrowserRouter>
-        <AuthProvider>
-          <ServersList />
-        </AuthProvider>
-      </BrowserRouter>
-    );
+    setupTest();
 
     const logoutButton = screen.getByText(/logout/i);
+
     fireEvent.click(logoutButton);
 
     expect(mockLogout).toHaveBeenCalled();

@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from "react-query";
 import { AuthProvider } from "./contexts/AuthContext";
-import { LoginView } from "./views";
+import { LoginView, ServerListView } from "./views";
 import {
   BrowserRouter as Router,
   Route,
@@ -8,15 +8,14 @@ import {
   Navigate,
 } from "react-router-dom";
 import { useAuth } from "./hooks/useAuth";
-import { ServersList } from "./views/ServerListView/ServerListView";
 
-function ProtectedRoute({ children }: { children: JSX.Element }) {
+const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   const { token } = useAuth();
   return token ? children : <Navigate to="/login" />;
-}
+};
+const queryClient = new QueryClient();
 
-const App = () => {
-  const queryClient = new QueryClient();
+export const App = () => {
   return (
     <AuthProvider>
       <QueryClientProvider client={queryClient}>
@@ -27,7 +26,7 @@ const App = () => {
               path="/servers"
               element={
                 <ProtectedRoute>
-                  <ServersList />
+                  <ServerListView />
                 </ProtectedRoute>
               }
             />
@@ -38,5 +37,3 @@ const App = () => {
     </AuthProvider>
   );
 };
-
-export default App;

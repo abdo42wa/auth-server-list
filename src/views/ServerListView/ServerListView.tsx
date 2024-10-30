@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import { useQuery } from "react-query";
-import { getServerList } from "../../utils/getServerList";
+import { getServerList } from "../../service/getServerList";
 import { TServer } from "../../types/types";
+import { TSortOption } from "./types";
 
-export const ServersList = () => {
+export const ServerListView = () => {
   const { token, logout } = useAuth();
-  const [sortOption, setSortOption] = useState<"name" | "distance">("distance");
+  const [sortOption, setSortOption] = useState<TSortOption>("distance");
 
   const {
     data: servers,
@@ -17,8 +18,9 @@ export const ServersList = () => {
     staleTime: 60000,
   });
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error loading servers</div>;
+  if (isLoading) return <div aria-label="serversLoader">Loading...</div>;
+
+  if (error) return <div aria-label="serversError">Error loading servers</div>;
 
   const sortedServers = [...(servers ?? [])].sort((a, b) => {
     if (sortOption === "distance") {
@@ -30,18 +32,14 @@ export const ServersList = () => {
     }
   });
 
-  const handleLogout = () => {
-    logout();
-  };
-
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSortOption(e.target.value as "name" | "distance");
+    setSortOption(e.target.value as TSortOption);
   };
 
   return (
     <div className="display">
       <h1>Hello</h1>
-      <button onClick={handleLogout}>Logout</button>
+      <button onClick={logout}>Logout</button>
       <div className="flex justify-center items-center h-screen bg-gray-100">
         <div className="bg-white rounded-lg shadow-md p-4 max-h-[650px] overflow-y-auto w-full md:w-1/2">
           <h2 className="text-2xl font-bold mb-4">Server List</h2>

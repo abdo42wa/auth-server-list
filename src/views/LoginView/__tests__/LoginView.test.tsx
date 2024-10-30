@@ -5,7 +5,7 @@ import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "../../../contexts/AuthContext";
 
 describe("Login Component", () => {
-  const setup = () => {
+  const setupTest = () => {
     render(
       <BrowserRouter>
         <AuthProvider>
@@ -25,7 +25,7 @@ describe("Login Component", () => {
     };
   };
   it("should renders login form with all necessary elements", () => {
-    const { usernameInput, passwordInput, submitButton } = setup();
+    const { usernameInput, passwordInput, submitButton } = setupTest();
 
     expect(usernameInput).toBeInTheDocument();
     expect(passwordInput).toBeInTheDocument();
@@ -33,7 +33,7 @@ describe("Login Component", () => {
   });
 
   it("should shows validation error for empty username", async () => {
-    const { submitButton } = setup();
+    const { submitButton } = setupTest();
 
     await userEvent.click(submitButton);
 
@@ -43,7 +43,7 @@ describe("Login Component", () => {
   });
 
   it("should shows validation error for short username", async () => {
-    const { usernameInput, submitButton } = setup();
+    const { usernameInput, submitButton } = setupTest();
 
     await userEvent.type(usernameInput, "abc");
     await userEvent.click(submitButton);
@@ -56,7 +56,7 @@ describe("Login Component", () => {
   });
 
   it("should shows validation error for empty password", async () => {
-    const { usernameInput, submitButton } = setup();
+    const { usernameInput, submitButton } = setupTest();
 
     await userEvent.type(usernameInput, "validuser");
     await userEvent.click(submitButton);
@@ -67,7 +67,7 @@ describe("Login Component", () => {
   });
 
   it("should shows validation error for short password", async () => {
-    const { usernameInput, passwordInput, submitButton } = setup();
+    const { usernameInput, passwordInput, submitButton } = setupTest();
 
     await userEvent.type(usernameInput, "validuser");
     await userEvent.type(passwordInput, "12345");
@@ -81,12 +81,12 @@ describe("Login Component", () => {
   });
 
   it("should has correct input types for security", () => {
-    const { passwordInput } = setup();
+    const { passwordInput } = setupTest();
     expect(passwordInput).toHaveAttribute("type", "password");
   });
 
   it("should applies correct CSS classes for styling", () => {
-    const { usernameInput, passwordInput, submitButton } = setup();
+    const { usernameInput, passwordInput, submitButton } = setupTest();
 
     expect(usernameInput).toHaveClass("rounded-lg", "bg-gray-200");
     expect(passwordInput).toHaveClass("rounded-lg", "bg-gray-200");
