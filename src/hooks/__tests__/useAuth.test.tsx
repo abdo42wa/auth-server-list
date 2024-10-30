@@ -2,34 +2,13 @@ import { renderHook, act } from "@testing-library/react";
 import { useAuth } from "../useAuth";
 import { AuthProvider } from "../../contexts/AuthContext";
 import { vi } from "vitest";
+import { localStorageMock } from "../../mocks/localStorageMock";
 
 describe("useAuth hook", () => {
-  const localStorageMock = (() => {
-    let store: Record<string, string> = {};
-    return {
-      getItem: vi.fn((key: string) => store[key] || null),
-      setItem: vi.fn((key: string, value: string) => {
-        store[key] = value;
-      }),
-      removeItem: vi.fn((key: string) => {
-        delete store[key];
-      }),
-      clear: vi.fn(() => {
-        store = {};
-      }),
-    };
-  })();
-
   beforeEach(() => {
     vi.stubGlobal("localStorage", localStorageMock);
     localStorageMock.clear();
   });
-
-  // it("throws error when used outside of AuthProvider", () => {
-  //   const { result } = renderHook(() => useAuth());
-
-  //   expect(result).toThrow("useAuth must be used within an AuthProvider");
-  // });
 
   it("provides login function that updates token", () => {
     const { result } = renderHook(() => useAuth(), {

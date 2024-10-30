@@ -5,15 +5,9 @@ import {
   useCallback,
   useMemo,
 } from "react";
+import { TAuthContextType } from "../types/types";
 
-export interface AuthContextType {
-  token: string | null;
-  isAuthenticated: boolean;
-  login: (token: string) => void;
-  logout: () => void;
-}
-
-export const AuthContext = createContext<AuthContextType | undefined>(
+export const AuthContext = createContext<TAuthContextType | undefined>(
   undefined
 );
 

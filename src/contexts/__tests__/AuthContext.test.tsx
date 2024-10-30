@@ -2,24 +2,9 @@ import { describe, it, expect, beforeEach, vi } from "vitest";
 import { render, screen, renderHook, act } from "@testing-library/react";
 import { AuthProvider } from "../AuthContext";
 import { useAuth } from "../../hooks/useAuth";
+import { localStorageMock } from "../../mocks/localStorageMock";
 
 describe("AuthContext & useAuth", () => {
-  const localStorageMock = (() => {
-    let store: Record<string, string> = {};
-    return {
-      getItem: vi.fn((key: string) => store[key] || null),
-      setItem: vi.fn((key: string, value: string) => {
-        store[key] = value;
-      }),
-      removeItem: vi.fn((key: string) => {
-        delete store[key];
-      }),
-      clear: vi.fn(() => {
-        store = {};
-      }),
-    };
-  })();
-
   beforeEach(() => {
     vi.stubGlobal("localStorage", localStorageMock);
     localStorageMock.clear();
