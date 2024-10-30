@@ -11,13 +11,16 @@
     "isolatedModules": true,
     "moduleDetection": "force",
     "noEmit": true,
-
+    
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+    
+    /* needed for vitest */
+    "types": ["vitest/globals"],
   },
-  "include": ["vite.config.ts"]
+  "include": ["vite.config.ts", "src/test/setup.ts"]
 }
