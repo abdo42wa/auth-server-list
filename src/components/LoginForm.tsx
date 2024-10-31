@@ -2,6 +2,7 @@ import { Form, Formik } from "formik";
 import type { TLoginValues, TLoginFormProps } from "../types";
 import { loginValidationSchema } from "../utils/";
 import { FormField, ErrorMessage } from "./";
+import { LoginButtonArrowIcon } from "../icons/LoginButtonArrowIcon";
 
 export const LoginForm = ({ onSubmit, error }: TLoginFormProps) => {
   const initialValues: TLoginValues = {
@@ -16,10 +17,11 @@ export const LoginForm = ({ onSubmit, error }: TLoginFormProps) => {
       onSubmit={onSubmit}
     >
       {({ errors, touched }) => (
-        <Form className="space-y-4">
+        <Form className="space-y-6">
           <FormField
             name="username"
             label="Username"
+            placeholder="Your username"
             error={errors.username}
             touched={touched.username}
           />
@@ -28,7 +30,7 @@ export const LoginForm = ({ onSubmit, error }: TLoginFormProps) => {
             name="password"
             label="Password"
             type="password"
-            placeholder="Password"
+            placeholder="******************"
             error={errors.password}
             touched={touched.password}
           />
@@ -37,15 +39,14 @@ export const LoginForm = ({ onSubmit, error }: TLoginFormProps) => {
             <ErrorMessage message={error} ariaLabel="formErrorMessage" />
           )}
 
-          <div className="flex justify-between items-center">
-            <button
-              aria-label="submitButton"
-              type="submit"
-              className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded transition-colors duration-200"
-            >
-              Login
-            </button>
-          </div>
+          <button
+            aria-label="submitButton"
+            type="submit"
+            className="w-full flex justify-center items-center py-2 px-4 rounded-2xl font-medium text-white bg-[#4763E4] hover:bg-indigo-600"
+          >
+            Login
+            <LoginButtonArrowIcon />
+          </button>
         </Form>
       )}
     </Formik>

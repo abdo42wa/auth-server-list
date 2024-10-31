@@ -23,14 +23,14 @@ export const FormField = ({
       aria-label={`${name}Label`}
       className="block text-gray-700 font-medium mb-2"
     >
-      {label}:
+      {label}
     </label>
     <Field
       aria-label={`${name}Field`}
       name={name}
       type={type}
       placeholder={placeholder}
-      className="border border-gray-300 rounded-md px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+      className="border border-gray-300 rounded-2xl px-4 py-2 w-full focus:outline-none focus:ring-1 focus:ring-[#4763E4]"
     />
     {error && touched && (
       <ErrorMessage message={error} ariaLabel={`${name}ErrorMessage`} />
