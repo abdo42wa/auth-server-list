@@ -5,9 +5,14 @@ import { LoginForm } from "./";
 interface ILoginContainerProps {
   onSubmit: (values: TLoginValues) => Promise<void>;
   error: string | null;
+  isLoading: boolean;
 }
 
-export const LoginContainer = ({ onSubmit, error }: ILoginContainerProps) => (
+export const LoginContainer = ({
+  onSubmit,
+  error,
+  isLoading,
+}: ILoginContainerProps) => (
   <div className="flex justify-center items-center h-screen">
     <div className="w-full max-w-lg p-8">
       <div className="flex justify-center mb-6">
@@ -16,7 +21,7 @@ export const LoginContainer = ({ onSubmit, error }: ILoginContainerProps) => (
       <h2 className="text-xl mb-6 text-center text-gray-800">
         Please enter your login information
       </h2>
-      <LoginForm onSubmit={onSubmit} error={error} />
+      <LoginForm onSubmit={onSubmit} error={error} isLoading={isLoading} />
     </div>
   </div>
 );

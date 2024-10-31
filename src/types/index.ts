@@ -18,6 +18,7 @@ export type TLoginValues = {
 export type TLoginFormProps = {
   onSubmit: (values: TLoginValues) => Promise<void>;
   error: string | null;
+  isLoading?: boolean;
 };
 
 export type TErrorMessage = {

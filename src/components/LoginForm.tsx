@@ -1,10 +1,10 @@
 import { Form, Formik } from "formik";
 import type { TLoginValues, TLoginFormProps } from "../types";
-import { loginValidationSchema } from "../utils/";
-import { FormField, ErrorMessage } from "./";
-import { LoginButtonArrowIcon } from "../icons/LoginButtonArrowIcon";
+import { loginValidationSchema } from "../utils";
+import { ErrorMessage, SpinnerLoader, FormField } from "./";
+import { LoginButtonArrowIcon } from "../icons";
 
-export const LoginForm = ({ onSubmit, error }: TLoginFormProps) => {
+export const LoginForm = ({ onSubmit, error, isLoading }: TLoginFormProps) => {
   const initialValues: TLoginValues = {
     username: "",
     password: "",
@@ -24,6 +24,7 @@ export const LoginForm = ({ onSubmit, error }: TLoginFormProps) => {
             placeholder="Your username"
             error={errors.username}
             touched={touched.username}
+            disabled={isLoading}
           />
 
           <FormField
@@ -33,6 +34,7 @@ export const LoginForm = ({ onSubmit, error }: TLoginFormProps) => {
             placeholder="******************"
             error={errors.password}
             touched={touched.password}
+            disabled={isLoading}
           />
 
           {error && (
@@ -42,10 +44,22 @@ export const LoginForm = ({ onSubmit, error }: TLoginFormProps) => {
           <button
             aria-label="submitButton"
             type="submit"
-            className="w-full flex justify-center items-center py-2 px-4 rounded-2xl font-medium text-white bg-[#4763E4] hover:bg-indigo-600"
+            disabled={isLoading}
+            className={`
+                w-full flex justify-center items-center py-2 px-4 rounded-2xl font-medium text-white bg-[#4763E4] hover:bg-indigo-600
+                ${isLoading && "opacity-50 cursor-not-allowed"}
+              `}
           >
-            Login
-            <LoginButtonArrowIcon />
+            {isLoading ? (
+              <>
+                <SpinnerLoader />
+              </>
+            ) : (
+              <>
+                Login
+                <LoginButtonArrowIcon />
+              </>
+            )}
           </button>
         </Form>
       )}

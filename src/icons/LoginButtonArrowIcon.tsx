@@ -2,7 +2,7 @@ import type { FC, SVGProps } from "react";
 
 export const LoginButtonArrowIcon: FC<SVGProps<SVGAElement>> = () => {
   return (
-    <div className="ml-2">
+    <div className="ml-2 mt-1.5">
       <svg
         width="21"
         height="11"
