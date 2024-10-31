@@ -6,13 +6,13 @@ interface ISortSelectProps {
 }
 
 export const SortSelect = ({ value, onChange }: ISortSelectProps) => (
-  <div className="mb-4">
-    <label className="mr-2 font-medium">Sort by:</label>
+  <div>
+    <label className="mr-2 font-medium text-[#4763E4]">Sort by:</label>
     <select
       aria-label="sortByList"
       value={value}
       onChange={(e) => onChange(e.target.value as TSortOption)}
-      className="p-2 border rounded-md"
+      className="p-2 border rounded-md text-[#4763E4]"
     >
       <option value="distance">Distance</option>
       <option value="name">Name</option>
