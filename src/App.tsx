@@ -7,7 +7,7 @@ import {
   Routes,
   Navigate,
 } from "react-router-dom";
-import { useAuth } from "./hooks/useAuth";
+import { useAuth } from "./hooks";
 
 const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   const { token } = useAuth();

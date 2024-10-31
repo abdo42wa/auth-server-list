@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { TLoginValues } from "../types/types";
+import { type TLoginValues } from "../types";
 
 export const getAuthToken = async (values: TLoginValues): Promise<string> => {
   const response = await axios.post<{ token: string }>(

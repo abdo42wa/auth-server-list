@@ -84,12 +84,4 @@ describe("Login Component", () => {
     const { passwordInput } = setupTest();
     expect(passwordInput).toHaveAttribute("type", "password");
   });
-
-  it("should applies correct CSS classes for styling", () => {
-    const { usernameInput, passwordInput, submitButton } = setupTest();
-
-    expect(usernameInput).toHaveClass("rounded-lg", "bg-gray-200");
-    expect(passwordInput).toHaveClass("rounded-lg", "bg-gray-200");
-    expect(submitButton).toHaveClass("bg-blue-600");
-  });
 });

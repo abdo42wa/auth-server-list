@@ -14,3 +14,15 @@ export type TLoginValues = {
   username: string;
   password: string;
 };
+
+export type TLoginFormProps = {
+  onSubmit: (values: TLoginValues) => Promise<void>;
+  error: string | null;
+};
+
+export type TErrorMessage = {
+  message: string;
+  ariaLabel: string;
+};
+
+export type TSortOption = "name" | "distance";

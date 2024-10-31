@@ -1,4 +1,4 @@
-import { TErrorMessage } from "./type";
+import { type TErrorMessage } from "../types";
 
 export const ErrorMessage = ({
   message,

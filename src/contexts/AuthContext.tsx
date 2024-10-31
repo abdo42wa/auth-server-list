@@ -1,11 +1,11 @@
 import {
   createContext,
   useState,
-  ReactNode,
+  type ReactNode,
   useCallback,
   useMemo,
 } from "react";
-import { TAuthContextType } from "../types/types";
+import { type TAuthContextType } from "../types";
 
 export const AuthContext = createContext<TAuthContextType | undefined>(
   undefined

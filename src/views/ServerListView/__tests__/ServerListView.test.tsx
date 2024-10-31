@@ -2,7 +2,7 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { ServerListView } from "../ServerListView";
 import { useAuth } from "../../../hooks/useAuth";
 import { useQuery } from "react-query";
-import { TServer } from "../../../types/types";
+import { type TServer } from "../../../types";
 import { vi, Mock } from "vitest";
 import { AuthProvider } from "../../../contexts/AuthContext";
 import { BrowserRouter } from "react-router-dom";

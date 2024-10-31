@@ -1,76 +1,57 @@
-import { useState } from "react";
-import { useAuth } from "../../hooks/useAuth";
-import { useQuery } from "react-query";
-import { getServerList } from "../../service/getServerList";
-import { TServer } from "../../types/types";
-import { TSortOption } from "./types";
+import { useState, useMemo } from "react";
+import { useServerData, useAuth } from "../../hooks";
+import { type TSortOption } from "../../types";
+import { sortServers } from "../../utils";
+import { ServerCard, SortSelect } from "../../components";
 
 export const ServerListView = () => {
   const { token, logout } = useAuth();
+  const { data: servers, isLoading, error } = useServerData(token);
   const [sortOption, setSortOption] = useState<TSortOption>("distance");
 
-  const {
-    data: servers,
-    isLoading,
-    error,
-  } = useQuery<TServer[]>("servers", () => getServerList(token!), {
-    enabled: !!token,
-    staleTime: 60000,
-  });
+  const sortedServers = useMemo(() => {
+    if (!servers) return [];
+    return sortServers(servers, sortOption);
+  }, [servers, sortOption]);
 
-  if (isLoading) return <div aria-label="serversLoader">Loading...</div>;
+  if (isLoading) {
+    return (
+      <div
+        aria-label="serversLoader"
+        className="flex justify-center items-center h-screen"
+      >
+        <div className="animate-spin rounded-full h-12 w-12 border-4 border-primary border-t-transparent"></div>
+      </div>
+    );
+  }
 
-  if (error) return <div aria-label="serversError">Error loading servers</div>;
-
-  const sortedServers = [...(servers ?? [])].sort((a, b) => {
-    if (sortOption === "distance") {
-      return a.distance === b.distance
-        ? a.name.localeCompare(b.name)
-        : a.distance - b.distance;
-    } else {
-      return a.name.localeCompare(b.name);
-    }
-  });
-
-  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSortOption(e.target.value as TSortOption);
-  };
+  if (error) {
+    return (
+      <div aria-label="serversError" className="text-red-500 text-center p-4">
+        Error loading servers: {error.message}
+      </div>
+    );
+  }
 
   return (
-    <div className="display">
-      <h1>Hello</h1>
-      <button onClick={logout}>Logout</button>
-      <div className="flex justify-center items-center h-screen bg-gray-100">
-        <div className="bg-white rounded-lg shadow-md p-4 max-h-[650px] overflow-y-auto w-full md:w-1/2">
-          <h2 className="text-2xl font-bold mb-4">Server List</h2>
+    <div className="min-h-screen bg-gray-100 p-4">
+      <div className="max-w-4xl mx-auto">
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-3xl font-bold">Server List</h1>
+          <button
+            onClick={logout}
+            className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
+          >
+            Logout
+          </button>
+        </div>
 
-          <div className="mb-4">
-            <label className="mr-2 font-medium">Sort by:</label>
-            <select
-              aria-label="sortByList"
-              value={sortOption}
-              onChange={handleSortChange}
-              className="p-2 border rounded-md"
-            >
-              <option value="distance">Distance</option>
-              <option value="name">Name</option>
-            </select>
-          </div>
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <SortSelect value={sortOption} onChange={setSortOption} />
 
-          <div className="server-list grid grid-cols-1 gap-4">
+          <div className="server-list grid grid-cols-1 gap-4 max-h-[600px] overflow-y-auto">
             {sortedServers.map((server, index) => (
-              <div
-                aria-label="server"
-                key={index}
-                className="server bg-gray-100 rounded-md p-2 flex items-center"
-              >
-                <div className="server-info flex items-center">
-                  <h3 className="text-lg font-medium mr-2">{server.name}</h3>
-                  <span className="text-gray-500 text-sm">
-                    {server.distance} km
-                  </span>
-                </div>
-              </div>
+              <ServerCard key={index} server={server} />
             ))}
           </div>
         </div>
