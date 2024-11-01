@@ -1,7 +1,6 @@
 import { Form, Formik, FormikHelpers } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { FormField, Loader } from '../../../components';
-import { LoginButtonArrowIcon } from '../../../assets/icons';
 import { ROUTES } from '../../../constants';
 import { useAuth } from '../../../contexts/AuthContext';
 import { useEffect } from 'react';
@@ -66,19 +65,14 @@ export const LoginForm = () => {
             type="submit"
             disabled={isSubmitting}
             className={`
-          w-full flex justify-center items-center py-2 px-4 rounded-2xl font-medium text-white bg-[#4763E4] hover:bg-indigo-600
-          ${isSubmitting && "opacity-50 cursor-not-allowed"}
-        `}
+              w-full flex justify-center items-center gap-2 py-2 px-4 rounded-2xl font-medium text-white bg-[#4763E4] hover:bg-indigo-600
+              ${isSubmitting && "opacity-50 cursor-not-allowed"}
+            `}
           >
             {isSubmitting ? (
-              <>
-                <Loader />
-              </>
+              <Loader />
             ) : (
-              <>
-                Login
-                <LoginButtonArrowIcon />
-              </>
+              "Login"
             )}
           </button>
         </Form>

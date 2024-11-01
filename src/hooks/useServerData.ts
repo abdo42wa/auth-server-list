@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
 import { type TServer } from "../types";
-import { getServerList } from "../services";
+import { getServerList } from "../services/getServerList";
 
 export const useServerData = (token: string | null) => {
   return useQuery<TServer[], Error>({

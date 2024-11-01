@@ -11,7 +11,7 @@ export const FilterIcon: FC<SVGProps<SVGAElement>> = () => {
         x="0px"
         y="0px"
         viewBox="0 0 12 12"
-        enable-background="new 0 0 12 12"
+        enableBackground="new 0 0 12 12"
         xmlSpace="preserve"
       >
         <g>

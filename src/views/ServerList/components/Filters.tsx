@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { TSortOption } from "../../../types";
-import { FilterIcon, SearchIcon } from "../../../assets/icons";
+import { CloseIcon, FilterIcon, SearchIcon } from "../../../assets/icons";
 import { SortSelect } from "./SortSelect";
 
 interface IFiltersProps {
@@ -40,7 +40,7 @@ export const Filters = ({
       {isFilterOpen && (
         <div className="bg-gray-50 p-4 rounded-md border border-gray-200 space-y-2">
           <div className="flex items-center space-x-2">
-            <label className="font-medium text-[#4763E4] flex-none">
+            <label className="text-[#4763E4]">
               Max Distance (km):
             </label>
             <input
@@ -60,7 +60,7 @@ export const Filters = ({
                 onClick={() => onDistanceFilterChange(null)}
                 className="text-red-500 hover:text-red-700"
               >
-                <div className="text-gray-400"> X</div>
+                <CloseIcon />
               </button>
             )}
           </div>

@@ -1,1 +1,0 @@
-export { sortServers } from "./sortServers";

@@ -1,11 +1,33 @@
 import { useState, useMemo } from "react";
-import { TServer, TSortOption } from "../types";
-import { sortServers } from "../utils";
+import type { TServer, TSortOption } from "../types";
+import { sortServers } from "../utils/sortServers";
 
-export const useServerSearch = (servers: TServer[] | undefined) => {
+interface IServerSearchControls {
+  searchTerm: string;
+  sortOption: TSortOption;
+  distanceFilter: number | null;
+  handleSearchChange: (value: string) => void;
+  handleSortChange: (option: TSortOption) => void;
+  handleDistanceFilterChange: (value: number | null) => void;
+  processedServers: TServer[];
+}
+
+export const useServerSearch = (servers: TServer[] | undefined): IServerSearchControls => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOption, setSortOption] = useState<TSortOption>("Sort-by");
   const [distanceFilter, setDistanceFilter] = useState<number | null>(null);
+
+  const handleSearchChange = (value: string) => {
+    setSearchTerm(value);
+  };
+
+  const handleSortChange = (option: TSortOption) => {
+    setSortOption(option);
+  };
+
+  const handleDistanceFilterChange = (value: number | null) => {
+    setDistanceFilter(value);
+  };
 
   const processedServers = useMemo(() => {
     if (!servers) return [];
@@ -25,11 +47,11 @@ export const useServerSearch = (servers: TServer[] | undefined) => {
 
   return {
     searchTerm,
-    setSearchTerm,
     sortOption,
-    setSortOption,
     distanceFilter,
-    setDistanceFilter,
+    handleSearchChange,
+    handleSortChange,
+    handleDistanceFilterChange,
     processedServers,
   };
 };
