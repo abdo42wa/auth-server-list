@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { ServerListView } from "../ServerListView";
+import { ServerListView } from "../ServerList";
 import { useAuth } from "../../../hooks/useAuth";
 import { useQuery } from "react-query";
 import { type TServer } from "../../../types";

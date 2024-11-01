@@ -1,4 +1,4 @@
-export const ServersLoader = () => {
+export const Loader = () => {
   return (
     <div
       aria-label="serversLoader"

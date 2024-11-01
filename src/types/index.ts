@@ -26,4 +26,4 @@ export type TErrorMessage = {
   ariaLabel: string;
 };
 
-export type TSortOption = "name" | "distance";
+export type TSortOption = "name" | "distance" | "Sort-by";

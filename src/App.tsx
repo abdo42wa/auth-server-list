@@ -1,39 +1,15 @@
-import { QueryClient, QueryClientProvider } from "react-query";
-import { AuthProvider } from "./contexts/AuthContext";
-import { LoginView, ServerListView } from "./views";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Navigate,
-} from "react-router-dom";
-import { useAuth } from "./hooks";
-
-const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
-  const { token } = useAuth();
-  return token ? children : <Navigate to="/login" />;
-};
-const queryClient = new QueryClient();
+import { ProvideAuth } from "./contexts/AuthContext";
+import { AppRoutes } from "./routes/AppRoutes";
+import { Toaster } from "react-hot-toast";
+import { client, QueryProvider } from "./services/query";
 
 export const App = () => {
   return (
-    <AuthProvider>
-      <QueryClientProvider client={queryClient}>
-        <Router>
-          <Routes>
-            <Route path="/login" element={<LoginView />} />
-            <Route
-              path="/servers"
-              element={
-                <ProtectedRoute>
-                  <ServerListView />
-                </ProtectedRoute>
-              }
-            />
-            <Route path="/" element={<Navigate to="/servers" />} />
-          </Routes>
-        </Router>
-      </QueryClientProvider>
-    </AuthProvider>
+    <QueryProvider client={client} >
+      <ProvideAuth>
+        <Toaster />
+        <AppRoutes />
+      </ProvideAuth>
+    </QueryProvider>
   );
 };

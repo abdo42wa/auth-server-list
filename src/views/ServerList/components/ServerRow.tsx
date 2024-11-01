@@ -1,10 +1,10 @@
-import { type TServer } from "../types";
+import { type TServer } from "../../../types";
 
-interface IServerCardProps {
+interface IServerRowProps {
   server: TServer;
 }
 
-export const ServerCard = ({ server }: IServerCardProps) => (
+export const ServerRow = ({ server }: IServerRowProps) => (
   <div
     aria-label="server"
     className="server bg-gray-100 rounded-md p-2 flex items-center hover:bg-gray-200 transition-colors"
