@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../contexts/AuthContext";
+
 import { ROUTES } from "../../constants";
+import { useAuth } from "../../contexts/AuthContext";
 
 export const Header = () => {
     const { signOut } = useAuth();
@@ -21,5 +22,5 @@ export const Header = () => {
                 Logout
             </button>
         </div>
-    )
-}
+    );
+};

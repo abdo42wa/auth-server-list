@@ -1,4 +1,5 @@
 import axios from "axios";
+
 import { type TLoginValues } from "../types";
 
 export const getAuthToken = async ({

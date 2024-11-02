@@ -8,4 +8,4 @@ export type TLoginValues = {
   password: string;
 };
 
-export type TSortOption = "name" | "distance" | "Sort-by";
+export type TSortOption = "name" | "distance" | "default";

@@ -1,8 +1,9 @@
 import { createContext, useContext, useEffect } from "react";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+
 import { ROUTES } from "../constants";
 import { getAuthToken } from "../services/getAuthToken";
-import toast from "react-hot-toast";
 import { getStorageItem, removeStorageItem, setStorageItem, StorageKey } from "../utils/storage";
 
 interface ISignInParams {
@@ -34,8 +35,8 @@ export const useAuth = () => {
 };
 
 const useProvideAuth = () => {
-    const navigate = useNavigate()
-    const authToken = getStorageItem(StorageKey.token)
+    const navigate = useNavigate();
+    const authToken = getStorageItem(StorageKey.token);
 
     const signIn = async ({
         username,
@@ -47,8 +48,9 @@ const useProvideAuth = () => {
             const token = await getAuthToken({ username, password });
             setStorageItem(StorageKey.token, token);
             onSuccess();
-        } catch (error: any) {
-            toast.error("Error while logging in: " + error.message);
+        } catch (error: unknown) {
+            const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+            toast.error(`Error while logging in: ${errorMessage}`);
             onError();
         }
     };
@@ -59,7 +61,7 @@ const useProvideAuth = () => {
     };
 
     useEffect(() => {
-        navigate(!!authToken ? ROUTES.SERVER : ROUTES.LOGIN);
+        navigate(authToken ? ROUTES.SERVER : ROUTES.LOGIN);
     }, [authToken]);
 
     return {

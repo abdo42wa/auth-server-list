@@ -1,9 +1,10 @@
 import { Route, Routes } from "react-router-dom";
-import { ProtectedRoute } from "./ProtectedRoute";
+
 import { ROUTES } from "../constants";
+import { Layout } from "../views/Layout/Layout";
 import { Login } from "../views/LoginView/Login";
 import { ServerList } from "../views/ServerList/ServerList";
-import { Layout } from "../views/Layout/Layout";
+import { ProtectedRoute } from "./ProtectedRoute";
 
 export const AppRoutes = () => (
     <Routes>

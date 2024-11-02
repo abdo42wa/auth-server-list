@@ -1,12 +1,13 @@
-import { ErrorMessage } from "../../components";
-import { Filters } from "./components/Filters";
-import { useServerSearch } from "../../hooks/useServerSearch";
-import { ServerRow } from "./components/ServerRow";
-import { useAuth } from "../../contexts/AuthContext";
-import { Loader } from "../../components/Loader";
-import { useServerData } from "../../hooks/useServerData";
-import { ROUTES } from "../../constants";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+
+import { Loader } from "../../components/Loader";
+import { ROUTES } from "../../constants";
+import { useAuth } from "../../contexts/AuthContext";
+import { useServerData } from "../../hooks/useServerData";
+import { useServerSearch } from "../../hooks/useServerSearch";
+import { Filters } from "./components/Filters";
+import { ServerRow } from "./components/ServerRow";
 
 export const ServerList = () => {
   const { authToken, signOut } = useAuth();
@@ -28,16 +29,12 @@ export const ServerList = () => {
   }
 
   if (error) {
-    if ((error as any).response?.status === 401) {
+    const errorResponse = error as { response?: { status: number } };
+    if (errorResponse.response?.status === 401) {
       signOut(() => {
         navigate(ROUTES.LOGIN);
       });
-      return (
-        <ErrorMessage
-          ariaLabel="authError"
-          message="Your session has expired. Please log in again."
-        />
-      );
+      toast.error('Your session has expired. Please log in again.');
     }
   }
 

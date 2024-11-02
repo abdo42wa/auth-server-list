@@ -1,9 +1,10 @@
 import { Form, Formik, FormikHelpers } from 'formik';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 import { FormField, Loader } from '../../../components';
 import { ROUTES } from '../../../constants';
 import { useAuth } from '../../../contexts/AuthContext';
-import { useEffect } from 'react';
 import { TLoginValues } from '../../../types';
 import { validationSchema } from './validationSchema';
 
@@ -28,10 +29,10 @@ export const LoginForm = () => {
         setSubmitting(false);
       },
     });
-  }
+  };
 
   useEffect(() => {
-    navigate(!!authToken ? ROUTES.SERVER : ROUTES.LOGIN);
+    navigate(authToken ? ROUTES.SERVER : ROUTES.LOGIN);
   }, [authToken]);
 
   return (

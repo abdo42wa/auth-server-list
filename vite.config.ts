@@ -1,6 +1,6 @@
-import { coverageConfigDefaults, defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
 import dotenv from "dotenv";
+import { coverageConfigDefaults, defineConfig } from "vitest/config";
 
 dotenv.config();
 export default defineConfig({

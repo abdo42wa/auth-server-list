@@ -29,5 +29,4 @@ export const client = new QueryClient({
     },
 });
 
-
 export const QueryProvider = QueryClientProvider;

@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { TSortOption } from "../../../types";
+
 import { CloseIcon, FilterIcon, SearchIcon } from "../../../assets/icons";
+import { TSortOption } from "../../../types";
 import { SortSelect } from "./SortSelect";
 
 interface IFiltersProps {

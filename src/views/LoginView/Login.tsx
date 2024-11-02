@@ -1,5 +1,4 @@
 import { LoginIcon } from "../../assets/icons";
-
 import { LoginForm } from "./components/LoginForm";
 
 export const Login = () => {
