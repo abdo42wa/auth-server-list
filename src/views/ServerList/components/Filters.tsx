@@ -30,6 +30,7 @@ export const Filters = ({
         <div className="flex  items-center ">
           <SortSelect onChange={onSortChange} value={sortOption} />
           <button
+            aria-label="distanceFilterButton"
             onClick={() => setIsFilterOpen(!isFilterOpen)}
             className="p-2 bg-gray-100 rounded-md hover:bg-gray-200 ml-3 "
           >
@@ -39,12 +40,13 @@ export const Filters = ({
       </div>
 
       {isFilterOpen && (
-        <div className="bg-gray-50 p-4 rounded-md border border-gray-200 space-y-2">
+        <div aria-label="distanceFilterContainer" className="bg-gray-50 p-4 rounded-md border border-gray-200 space-y-2">
           <div className="flex items-center space-x-2">
             <label className="text-[#4763E4]">
               Max Distance (km):
             </label>
             <input
+              aria-label="distanceFilterInput"
               type="number"
               value={distanceFilter || ""}
               onChange={(e) => {
@@ -58,6 +60,7 @@ export const Filters = ({
             />
             {distanceFilter && (
               <button
+                aria-label="closeButton"
                 onClick={() => onDistanceFilterChange(null)}
                 className="text-red-500 hover:text-red-700"
               >
@@ -73,6 +76,7 @@ export const Filters = ({
           <SearchIcon />
         </div>
         <input
+          aria-label="filterInput"
           type="text"
           placeholder="Search for server"
           value={searchTerm}

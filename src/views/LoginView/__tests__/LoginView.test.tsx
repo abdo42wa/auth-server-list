@@ -1,16 +1,17 @@
-import { LoginView } from "../Login";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { BrowserRouter } from "react-router-dom";
-import { AuthProvider } from "../../../contexts/AuthContext";
+
+import { ProvideAuth } from "../../../contexts/AuthContext";
+import { Login } from "../Login";
 
 describe("Login Component", () => {
   const setupTest = () => {
     render(
       <BrowserRouter>
-        <AuthProvider>
-          <LoginView />
-        </AuthProvider>
+        <ProvideAuth>
+          <Login />
+        </ProvideAuth>
       </BrowserRouter>
     );
 

@@ -1,4 +1,4 @@
-import { useCallback,useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 import type { TServer, TSortOption } from "../types";
 import { sortServers } from "../utils/sortServers";
@@ -22,11 +22,11 @@ export const useServerSearch = (servers?: TServer[]): IServerSearchControls => {
     setSearchTerm(value);
   };
 
-  const handleSortChange = useCallback(() => (option: TSortOption) => {
+  const handleSortChange = useCallback((option: TSortOption) => {
     setSortOption(option);
   }, []);
 
-  const handleDistanceFilterChange = useCallback(() => (value: number | null) => {
+  const handleDistanceFilterChange = useCallback((value: number | null) => {
     setDistanceFilter(value);
   }, []);
 
